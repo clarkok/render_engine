@@ -9,9 +9,6 @@ Token *HTMLLex::nextToken() {
     string buf;
     char next;
     if (l_is >> next) {
-        while (next == ' ' || next == '\t' || next == '\n' || next == '\r') {
-            next = l_is.get();
-        }
         if (next == '<') {              // <
             buf += next;
             next = l_is.get();
@@ -41,6 +38,7 @@ Token *HTMLLex::nextToken() {
                 char sub_buf = next;
                 next = l_is.get();
                 if (next == '>') {      // -->
+                    buf += '-';
                     buf += sub_buf;
                     buf += next;
                     return new Token(HT_COMMENT_END, new Value(V_STRING, new string(buf)));

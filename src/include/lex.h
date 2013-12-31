@@ -10,6 +10,7 @@ using namespace std;
 class Token {
     public:
         Token();
+        ~Token();
         Token(u32 type, Value *value);
         u32     t_type;
         Value   *t_value;
@@ -19,7 +20,7 @@ class Token {
 class BaseLex {
     public:
                 BaseLex(istream &input);
-        Token   *nextToken();
+        virtual Token   *nextToken();
     protected:
         istream     &l_is;
 };

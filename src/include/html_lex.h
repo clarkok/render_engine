@@ -24,4 +24,4 @@ class HTMLLex: protected BaseLex {
         Token   *nextToken();
 };
 
-#endif //_HTML_LEX_H
+#endif //_HTML_LEX_H_

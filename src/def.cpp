@@ -9,8 +9,7 @@ void Value::free() {
                 std::free(pointer);
                 break;
             case V_STRING:
-                ((string*)pointer)->~string();
-                std::free(pointer);
+                delete ((string*)pointer);
                 break;
             default:
                 std::free(pointer);

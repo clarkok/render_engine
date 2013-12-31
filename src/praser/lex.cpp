@@ -3,6 +3,12 @@
 Token::Token():t_type(0), t_value(new Value(0, NULL)) {
 }
 
+Token::~Token() {
+    if (t_value) {
+        delete t_value;
+    }
+}
+
 Token::Token(u32 type, Value *value):t_type(type), t_value(value) {
 }
 
