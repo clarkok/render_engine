@@ -14,6 +14,7 @@ OBJECTS = obj/main.o obj/def.o obj/lex.o obj/html_lex.o obj/css_lex.o \
 		  obj/tree.o
 
 $(TARGET): $(OBJECTS)
+	mkdir -p obj bin
 	$(COMPILER) $(COMPILE_OPTIONS) -o $@ $(OBJECTS)
 
 obj/main.o: src/main.cpp
