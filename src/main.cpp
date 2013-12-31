@@ -33,6 +33,9 @@ int main () {
 
     output(*root, "");
 
+    root->detachChild(root->getChild(0));
+
+    output(*root, "");
 
     return 0;
 }
