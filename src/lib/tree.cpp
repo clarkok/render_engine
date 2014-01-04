@@ -13,12 +13,12 @@ TreeNode::~TreeNode() {
     delete tn_children;
 }
 
-void TreeNode::attachChild(TreeNodePointer child) {
+void TreeNode::appendChild(TreeNodePointer child) {
     tn_children->push_back(child);
     child->setParent(this);
 }
 
-void TreeNode::detachChild(TreeNodePointer child) {
+void TreeNode::removeChild(TreeNodePointer child) {
     for (iterator i = tn_children->begin(); i != tn_children->end(); i++) {
         if (child == (*i)) {
             tn_children->erase(i);

@@ -3,39 +3,21 @@
 #include <fstream>
 #include <string>
 #include "tree.h"
+#include "html_lex.h"
 
 using namespace std;
 
-class TestNode: public TreeNode {
-    public:
-        TestNode(const string &_s):s(new string(_s)) {};
-        string  *s;
-};
+ifstream fin("/tmp/test.html");
 
-void output(TestNode &t, string ind) {
-    cout << ind << *(t.s) << endl;
-    for (TestNode::iterator i = t.childrenBegin(); i != t.childrenEnd(); i++) {
-        output(*((TestNode*)(*i)), ind + "  ");
-    }
-}
+HTMLLex lex(fin);
 
 int main () {
-    TestNode *root = new TestNode("Root");
+    Token *t;
 
-    TestNode *tmp = new TestNode("Node 1");
-    root->attachChild(tmp);
-
-    tmp = new TestNode("Node 2");
-    root->attachChild(tmp);
-
-    tmp = new TestNode("Node 2 1");
-    root->getChild(1)->attachChild(tmp);
-
-    output(*root, "");
-
-    root->detachChild(root->getChild(0));
-
-    output(*root, "");
+    while ((t = lex.nextToken()), t->t_type != HT_EOF) {
+        cout << t->t_type << '\t' << *(string*)t->t_value->get() << endl;
+        delete t;
+    }
 
     return 0;
 }

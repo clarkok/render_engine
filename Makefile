@@ -7,11 +7,11 @@ COMPILE_CMD = $(COMPILER) $(COMPILE_OPTIONS) -c -o $@ $<
 TARGET = bin/render
 
 HEADERS = src/include/def.h src/include/lex.h src/include/html_lex.h \
-		  src/include/css_lex.h src/include/praser.h src/include/dom.h \
+		  src/include/css_lex.h src/include/html_parser.h src/include/dom.h \
 		  src/include/tree.h
 
 OBJECTS = obj/main.o obj/def.o obj/lex.o obj/html_lex.o obj/css_lex.o \
-		  obj/tree.o
+		  obj/tree.o obj/html_parser.o obj/dom.o
 
 $(TARGET): $(OBJECTS)
 	mkdir -p obj bin
@@ -23,16 +23,25 @@ obj/main.o: src/main.cpp
 obj/def.o: src/def.cpp src/include/def.h
 	$(COMPILE_CMD)
 
-obj/lex.o: src/praser/lex.cpp src/include/lex.h src/include/def.h
+obj/lex.o: src/parser/lex.cpp src/include/lex.h src/include/def.h
 	$(COMPILE_CMD)
 
-obj/html_lex.o: src/praser/html_lex.cpp src/include/html_lex.h src/include/lex.h src/include/def.h
+obj/html_lex.o: src/parser/html_lex.cpp src/include/html_lex.h src/include/lex.h \
+	src/include/def.h
 	$(COMPILE_CMD)
 
-obj/css_lex.o: src/praser/css_lex.cpp src/include/css_lex.h src/include/lex.h src/include/def.h
+obj/css_lex.o: src/parser/css_lex.cpp src/include/css_lex.h src/include/lex.h \
+	src/include/def.h
 	$(COMPILE_CMD)
 
 obj/tree.o: src/lib/tree.cpp src/include/def.h src/include/tree.h
+	$(COMPILE_CMD)
+
+obj/dom.o: src/lib/dom.cpp src/include/def.h src/include/tree.h src/include/dom.h
+	$(COMPILE_CMD)
+
+obj/html_parser.o: src/parser/html_parser.cpp src/include/def.h src/include/tree.h \
+   	src/include/html_parser.h
 	$(COMPILE_CMD)
 
 .PHONY: clean

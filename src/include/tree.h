@@ -13,8 +13,8 @@ class TreeNode {
         typedef TreeNodeList::iterator iterator;
                 TreeNode();
                 ~TreeNode();
-        void    attachChild(TreeNodePointer child);
-        void    detachChild(TreeNodePointer child);
+        void    appendChild(TreeNodePointer child);
+        void    removeChild(TreeNodePointer child);
         void    setParent(TreeNodePointer parent);
         TreeNodePointer     getParent() const;
         TreeNodePointer     getChild(u32 index);
