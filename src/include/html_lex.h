@@ -18,10 +18,11 @@ typedef enum HTMLTokenType {
     HT_EOF
 } TokenType;
 
-class HTMLLex: protected BaseLex {
+class HTMLLex: public BaseLex {
     public:
                 HTMLLex(istream &input);
-        Token   *nextToken();
+    protected:
+        Token   *parseToken();
 };
 
 #endif //_HTML_LEX_H_

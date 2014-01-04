@@ -35,4 +35,6 @@ class Value {
         u32     getType() const;
 };
 
+#define     V2S(v)  (*(string*)v->get())
+
 #endif // _DEF_H_

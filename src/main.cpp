@@ -4,19 +4,24 @@
 #include <string>
 #include "tree.h"
 #include "html_lex.h"
+#include "html_parser.h"
 
 using namespace std;
 
 ifstream fin("/tmp/test.html");
 
 HTMLLex lex(fin);
+HTMLParser hp(lex);
 
 int main () {
-    Token *t;
+    DOMElement *d;
 
-    while ((t = lex.nextToken()), t->t_type != HT_EOF) {
-        cout << t->t_type << '\t' << *(string*)t->t_value->get() << endl;
-        delete t;
+    while ((d = hp.parse())) {
+        cout << *d->tagName;
+        if ((*d->tagName) == "__TEXT__") {
+            cout << (*d->attributes)["text"];
+        }
+        cout << endl;
     }
 
     return 0;

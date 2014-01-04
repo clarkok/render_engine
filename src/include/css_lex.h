@@ -22,10 +22,11 @@ typedef enum CSSTokenType {
     CT_EOF
 } CSSTokenType;
 
-class CSSLex: protected BaseLex {
+class CSSLex: public BaseLex {
     public:
                 CSSLex(istream &input);
-        Token   *nextToken();
+    protected:
+        Token   *parseToken();
 };
 
 #endif //_CSS_LEX_H_

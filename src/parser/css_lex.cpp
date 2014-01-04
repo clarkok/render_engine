@@ -5,7 +5,7 @@
 CSSLex::CSSLex(istream &input):BaseLex(input) {
 }
 
-Token *CSSLex::nextToken() {
+Token *CSSLex::parseToken() {
     string buf;
     char next;
     if (l_is >> next) {

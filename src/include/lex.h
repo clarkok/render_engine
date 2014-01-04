@@ -2,6 +2,7 @@
 #define _LEX_H_
 
 #include <istream>
+#include <stack>
 #include "def.h"
 
 using namespace std;
@@ -20,9 +21,13 @@ class Token {
 class BaseLex {
     public:
                 BaseLex(istream &input);
-        virtual Token   *nextToken();
+                Token   *nextToken();
+                void    pushBack(Token *t);
     protected:
+        virtual     Token   *parseToken();
         istream     &l_is;
+    private:
+        stack<Token*>   push_back_stack;
 };
 
 #endif // _LEX_H_

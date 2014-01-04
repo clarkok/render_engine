@@ -5,7 +5,7 @@
 HTMLLex::HTMLLex(istream &input):BaseLex(input) {
 }
 
-Token *HTMLLex::nextToken() {
+Token *HTMLLex::parseToken() {
     string buf;
     char next;
     if (l_is >> next) {
