@@ -4,6 +4,8 @@ COMPILER = g++
 COMPILE_OPTIONS = -I $(INCLUDE_PATH) -Wall -g
 COMPILE_CMD = $(COMPILER) $(COMPILE_OPTIONS) -c -o $@ $<
 
+DEPENDENCE = dependence.mk
+
 TARGET = bin/render
 
 HEADERS = src/include/def.h src/include/lex.h src/include/html_lex.h \
@@ -13,38 +15,23 @@ HEADERS = src/include/def.h src/include/lex.h src/include/html_lex.h \
 OBJECTS = obj/main.o obj/def.o obj/lex.o obj/html_lex.o obj/css_lex.o \
 		  obj/tree.o obj/html_parser.o obj/dom.o
 
+SOURCES = src/lib/dom.cpp src/lib/tree.cpp src/parser/css_lex.cpp \
+		  src/parser/html_lex.cpp src/parser/html_parser.cpp src/parser/lex.cpp \
+		  src/def.cpp src/main.cpp
+
 $(TARGET): $(OBJECTS)
 	mkdir -p obj bin
 	$(COMPILER) $(COMPILE_OPTIONS) -o $@ $(OBJECTS)
 
-obj/main.o: src/main.cpp
-	$(COMPILE_CMD)
+include $(DEPENDENCE)
 
-obj/def.o: src/def.cpp src/include/def.h
-	$(COMPILE_CMD)
-
-obj/lex.o: src/parser/lex.cpp src/include/lex.h src/include/def.h
-	$(COMPILE_CMD)
-
-obj/html_lex.o: src/parser/html_lex.cpp src/include/html_lex.h src/include/lex.h \
-	src/include/def.h
-	$(COMPILE_CMD)
-
-obj/css_lex.o: src/parser/css_lex.cpp src/include/css_lex.h src/include/lex.h \
-	src/include/def.h
-	$(COMPILE_CMD)
-
-obj/tree.o: src/lib/tree.cpp src/include/def.h src/include/tree.h
-	$(COMPILE_CMD)
-
-obj/dom.o: src/lib/dom.cpp src/include/def.h src/include/tree.h src/include/dom.h
-	$(COMPILE_CMD)
-
-obj/html_parser.o: src/parser/html_parser.cpp src/include/def.h src/include/tree.h \
-   	src/include/html_parser.h
-	$(COMPILE_CMD)
-
-.PHONY: clean
+.PHONY: clean dependence
 
 clean:
 	rm -f $(TARGET) $(OBJECTS)
+
+dependence: $(SOURCES)
+	$(COMPILER) -I $(INCLUDE_PATH) -MM $(SOURCES) \
+		| sed "/^[^\ ]/s/^/obj\//" \
+		| sed "/[^\/]$$/a \	\$$(COMPILE_CMD)" \
+		> $(DEPENDENCE)
