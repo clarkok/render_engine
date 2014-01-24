@@ -7,8 +7,42 @@ public class HTMLToken {
         HT_STRING,
         HT_COMMENT,
         HT_TEXT,
-        HT_SYMBLE,
-        HT_EOF
+        HT_DEFINE,
+        HT_LEFT_ANGLE_BRACKET,
+        HT_RIGHT_ANGLE_BRACKET,
+        HT_SLASH,
+        HT_EQUAL,
+        HT_EOF;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case HT_UNDEFINED:
+                    return "HT_UNDEFINED";
+                case HT_NAME:
+                    return "HT_NAME";
+                case HT_STRING:
+                    return "HT_STRING";
+                case HT_COMMENT:
+                    return "HT_COMMENT";
+                case HT_TEXT:
+                    return "HT_TEXT";
+                case HT_DEFINE:
+                    return "HT_DEFINE";
+                case HT_LEFT_ANGLE_BRACKET:
+                    return "HT_LEFT_ANGLE_BRACKET";
+                case HT_RIGHT_ANGLE_BRACKET:
+                    return "HT_RIGHT_ANGLE_BRACKET";
+                case HT_SLASH:
+                    return "HT_SLASH";
+                case HT_EQUAL:
+                    return "HT_EQUAL";
+                case HT_EOF:
+                    return "HT_EOF";
+                default:
+                    return "HT_UNKNOW";
+            }
+        }
     }
 
     private HTMLTokenType type;
