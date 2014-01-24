@@ -8,12 +8,12 @@ import html.HTMLToken;
 
 public class HTMLTokener {
     private Reader is;
-    private String back_stack;
+    private Stack<Character> back_stack;
     private boolean next_is_text;
 
     public HTMLTokener (Reader input) {
-        this.is = input.markSupported() ? input : new BufferedReader(input);
-        this.back_stack = new String();
+        this.is = input;
+        this.back_stack = new Stack<Character>();
         this.next_is_text = true;
     } 
 
@@ -112,7 +112,6 @@ public class HTMLTokener {
                 (c != '\n'))
                 break;
         }
-        if (c == -1) c = 0;
         return (char)c;
     }
 
@@ -123,10 +122,7 @@ public class HTMLTokener {
     private char nextSpace() throws IOException {
         int c;
         if (!this.back_stack.isEmpty()) {
-            int l = this.back_stack.length();
-            c = this.back_stack.charAt(l-1);
-            this.back_stack = this.back_stack.substring(0, l-1);
-            return (char)c;
+            return this.back_stack.pop();
         }
         c = this.is.read();
         if (c == -1) {
@@ -141,7 +137,7 @@ public class HTMLTokener {
      * @return c
      */
     private char back(char c) {
-        this.back_stack += c;
+        this.back_stack.push(c);
         return c;
     }
 
@@ -153,7 +149,7 @@ public class HTMLTokener {
     private String back(String s) {
         int l = s.length();
         for (int i = l-1; i >= 0; i--) {
-            this.back_stack += s.charAt(i);
+            this.back_stack.push(s.charAt(i));
         }
         return s;
     }
