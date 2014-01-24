@@ -208,11 +208,11 @@ public class HTMLTokener {
      */
     private String getComment() throws IOException {
         String s = new String();
-        if (this.peek(4) != "<!--")
+        if (!this.peek(4).equals("<!--"))
             return s;
         s += this.get(4);
         s += this.getUntil('-');
-        while (this.peek() != 0 && this.peek(3) != "-->") {
+        while (this.peek() != 0 && !this.peek(3).equals("-->")) {
             s += this.get(3);
             s += this.getUntil('-');
         }
