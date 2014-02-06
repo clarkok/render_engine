@@ -1,5 +1,7 @@
 import html.HTMLToken;
 import html.HTMLTokener;
+import html.HTMLNoder;
+import html.dom.DOMNode;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileReader;
@@ -9,14 +11,10 @@ public class Render {
         try {
             HTMLTokener tokener = new HTMLTokener(
                     new FileReader(new File("/tmp/dashboard")));
-            HTMLToken t = null;
-            while (true) {
-                t = tokener.nextToken();
-                if (t.getType() == HTMLToken.HTMLTokenType.HT_EOF) 
-                    break;
-                System.out.print(t.getType().toString());
-                System.out.print('\t');
-                System.out.println(t.getValue());
+            HTMLNoder noder = new HTMLNoder(tokener);
+            DOMNode n;
+            while ((n = noder.nextNode()) != null) {
+                System.out.println(n);
             }
         }
         catch (IOException e) {

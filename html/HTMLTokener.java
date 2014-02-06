@@ -10,6 +10,7 @@ public class HTMLTokener {
     private Reader is;
     private Stack<Character> back_stack;
     private boolean next_is_text;
+    private HTMLToken previous;
 
     public HTMLTokener (Reader input) {
         this.is = input;
@@ -18,10 +19,38 @@ public class HTMLTokener {
     } 
 
     /**
+     * Peek a token
+     * @return the next token
+     */
+    public HTMLToken peekToken() throws IOException {
+        HTMLToken t = this.nextToken();
+        return this.backToken(t);
+    }
+
+    /**
+     * Put back a token
+     * @param t the token to be put back
+     * @return t if succeed, else the previous token
+     */
+    public HTMLToken backToken(HTMLToken t) {
+        if (this.previous != null) {
+            return this.previous;
+        }
+        else {
+            return this.previous = t;
+        }
+    }
+
+    /**
      * Get next token of the stream
      * @return the next token
      */
     public HTMLToken nextToken() throws IOException {
+        if (this.previous != null) {
+            HTMLToken t = this.previous;
+            this.previous = null;
+            return t;
+        }
         char c = this.peek();
 
         //HT_TEXT

@@ -1,6 +1,4 @@
-SOURCES = Render.java
-
-render: $(SOURCES)
+render:
 	javac -d ./obj `find -name "*.java"`
 
 .PHONY: clean
